@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UMD Food Search app</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+<!--  Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+
+<!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+</head>
+    <body>
+
+    <header class="header">
+      <h1>Welcome to the UMD food search!</h1>
+    </header>
+
+    <div class="container">
+
+      <div class="restaurant-list">
+      <p>UM Dearborn <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-right">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+          Restaurants</p>
+      <h2>Best Restaurants near the campus</h2>
+    <!--    Here is going to be the list of restaurants returned by the api call -->
+      </div>
+
+      <div class="map-section">
+    <!--    Here goes our map -->
+          <p>Here goes our map</p>
+          <div id="map"></div>
+      </div>
+    </div>
+
+    <script>
+        let map = L.map('map').setView([42.318498726, -83.2265324272], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        let marker = L.circle([42.318498726,-83.2265324272], {
+            color: 'red',
+            fillColor: '#777',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(map);
+    </script>
+    </body>
+</html>
