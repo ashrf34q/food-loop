@@ -1,5 +1,8 @@
 package com.spring.foodsearchapp.model;
 
+import lombok.Data;
+
+@Data
 public class Properties {
 
     private String name;
