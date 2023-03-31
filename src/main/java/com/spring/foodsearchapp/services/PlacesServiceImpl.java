@@ -8,13 +8,11 @@ import com.spring.foodsearchapp.model.*;
 import com.spring.foodsearchapp.model.Properties;
 import com.spring.foodsearchapp.repositories.PlaceRepository;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -31,37 +29,30 @@ public class PlacesServiceImpl implements PlacesService {
 
     @Override
     public Set<Place> getPlaces() throws IOException {
-//        TODO: Remove
-//        int cacheSize = 10 * 1024 * 1024;
-//        File cacheDirectory = new File("src/test/resources/cache");
-//        Cache cache = new Cache(cacheDirectory, cacheSize);
 
         OkHttpClient client = new OkHttpClient().newBuilder()
-//                .cache(cache)
                 .build();
         Request request = new Request.Builder()
-                .url("https://api.geoapify.com/v2/places?categories=catering.fast_food,catering.cafe&filter=circle:-83.23240723618414,42.31726187641564,3000&bias=proximity:-83.23240723618414,42.31726187641564&limit=20&apiKey=1b25355b717a480b91ffa30ca977c7ec")
+                .url("https://api.geoapify.com/v2/places?categories=catering.fast_food,catering.cafe&filter=circle:-83.23240723618414,42.31726187641564,5000&bias=proximity:-83.23240723618414,42.31726187641564&limit=25&apiKey=1b25355b717a480b91ffa30ca977c7ec")
                 .method("GET", null)
                 .build();
         Response response = client.newCall(request).execute();
-
-
-//        TODO: Remove
-        var res = response.cacheResponse();
-        log.debug("Response " + res);
 
         Set<Place> places = new HashSet<>();
 
         String json = Objects.requireNonNull(response.body()).string();
         System.out.println(json);
 
-        //        Deserializing JSON into POJO
         setMapperVisibility(mapper);
 
-//        Now we have an array of all the places as objects (features)
-        Features[] featuresArray = mapper.readValue(json, Features[].class);
+//        Deserialize the whole returned JSON object into a POJO
 
-        for(Features feature : featuresArray) {
+        FeatureCollection collection = mapper.readValue(json, FeatureCollection.class);
+
+//        Now we have an array of all the places as objects (features)
+        Features[] features = mapper.convertValue(collection.getFeatures(), Features[].class);
+
+        for(Features feature : features) {
 //            Now we have a properties object for every feature in the features array
             Properties properties = mapper.convertValue(feature.getProperties(), Properties.class);
 

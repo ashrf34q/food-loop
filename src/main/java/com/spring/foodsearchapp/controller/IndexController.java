@@ -29,7 +29,7 @@ public class IndexController {
     @RequestMapping("/restaurants/search")
     public String sendRequest(Model model) throws IOException {
 
-//        TODO: call get places(),
+//        call get places(),
         Set<Place> places = placesService.getPlaces();
 
 //         save every  place to database,
@@ -38,7 +38,7 @@ public class IndexController {
         model.addAttribute("places", places);
 //         send our model to thymeleaf
 
-        return"";
+        return"list";
 
     }
 
