@@ -30,5 +30,64 @@ public class Place {
     private String amenity;
     private String cuisine;
     private String website;
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public double getLon() {
+		return lon;
+	}
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public String getAddress_line2() {
+		return address_line2;
+	}
+	public void setAddress_line2(String address_line2) {
+		this.address_line2 = address_line2;
+	}
+	public String getPlace_id() {
+		return place_id;
+	}
+	public void setPlace_id(String place_id) {
+		this.place_id = place_id;
+	}
+	public double getDistance() {
+		return distance;
+	}
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAmenity() {
+		return amenity;
+	}
+	public void setAmenity(String amenity) {
+		this.amenity = amenity;
+	}
+	public String getCuisine() {
+		return cuisine;
+	}
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
+	}
 }
