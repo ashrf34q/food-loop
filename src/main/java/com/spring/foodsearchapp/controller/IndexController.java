@@ -4,6 +4,7 @@ import com.spring.foodsearchapp.model.Place;
 import com.spring.foodsearchapp.services.PlacesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
@@ -40,6 +41,17 @@ public class IndexController {
 
         return"list";
 
+    }
+    
+    @RequestMapping("/restaurants/search/filter/{amenity}")
+    public String filterByAmenityRequest(Model model, @PathVariable("amenity") String amenity) throws IOException {
+    	Set<Place> places = placesService.getPlaces();
+    	places.forEach(placesService::savePlace);
+    	places = placesService.findByAmenity(amenity);
+    	
+    	model.addAttribute("places", places);
+    	
+    	return"list";
     }
 
 }

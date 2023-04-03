@@ -10,4 +10,6 @@ public interface PlacesService {
     Set<Place> getPlaces() throws IOException;
 
     Place savePlace(Place place);
+    
+    Set<Place> findByAmenity(String amenity);
 }
