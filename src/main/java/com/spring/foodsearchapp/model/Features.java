@@ -6,11 +6,4 @@ import lombok.Data;
 public class Features {
     private Object properties;
 
-	public Object getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Object properties) {
-		this.properties = properties;
-	}
 }

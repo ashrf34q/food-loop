@@ -14,6 +14,63 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
             integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
             crossorigin=""></script>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: sans-serif;
+            color: #343a40;
+        }
+
+        .header{
+            height: 70px;
+        }
+
+        .container{
+            display: flex;
+            gap: 54px;
+            /*width: 960px;*/
+            /*margin: 0 auto;*/
+        }
+
+        .arrow-right{
+            width: 16px;
+        }
+
+        #map{
+            height: 600px;
+            width: 500px;
+        }
+
+        table{
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            /* border: 1px solid #343a40; */
+            padding: 14px 28px;
+            text-align: left;
+        }
+
+        thead th{
+            background-color: #087f5b;
+            color: #fff;
+        }
+        .body-row:nth-child(even) {
+            background-color: #ced4da;
+        }
+
+        .body-row:nth-child(odd) {
+            background-color: #f1f3f5;
+        }
+    </style>
 </head>
 <body>
 
@@ -29,7 +86,26 @@
         </svg>
             Restaurants</p>
         <h2>Best Restaurants near the campus</h2>
-        <!--    Here is going to be the list of restaurants returned by the api call -->
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Amenity</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="body-row" th:each="place : ${places}">
+                <td th:text="${place.name}">Place name</td>
+                <td th:text="${place.formatted != null} ? ${place.formatted}">Address</td>
+                <td th:text="${place.phone != null} ? ${place.phone} : 'N/A'">Phone number</td>
+                <td th:text="${place.amenity}">Amenity</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="map-section">
@@ -39,19 +115,33 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     let map = L.map('map').setView([42.318498726, -83.2265324272], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    let marker = L.circle([42.318498726,-83.2265324272], {
-        color: 'red',
-        fillColor: '#777',
-        fillOpacity: 0.5,
-        radius: 500
-    }).addTo(map);
+    let marker = L.marker([42.31876597931233,-83.23285013531347]).addTo(map);
+
+
+    marker.bindPopup("<b>UM Dearborn campus. You are here</b>").openPopup();
+
+     const places = /*[[${places}]]*/ [];
+
+     places.forEach(place => {
+         let mapMarker = L.marker([place.lat, place.lon]).addTo(map);
+         mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li>" + place.distance + " meters away from campus</li></ul>").openPopup();
+     })
+
+
 </script>
 </body>
 </html>
+
+<!--// let marker = L.circle([42.318498726,-83.2265324272], {-->
+<!--//     color: 'red',-->
+<!--//     fillColor: '#777',-->
+<!--//     fillOpacity: 0.5,-->
+<!--//     radius: 500-->
+<!--// }).addTo(map);-->

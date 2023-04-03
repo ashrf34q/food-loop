@@ -65,6 +65,7 @@ public class PlacesServiceImpl implements PlacesService {
             tempPlace.setAddress_line2(properties.getAddress_line2());
             tempPlace.setPlace_id(properties.getPlace_id());
             tempPlace.setDistance(properties.getDistance());
+            tempPlace.setFormatted(properties.getFormatted());
 
 //            DataSource object within properties
             DataSource dataSource = mapper.convertValue(properties.getDatasource(), DataSource.class);
