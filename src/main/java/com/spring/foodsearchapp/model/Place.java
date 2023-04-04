@@ -5,10 +5,7 @@ package com.spring.foodsearchapp.model;
  this is the object that we're load up in our model object to send to the thymeleaf view
  */
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
