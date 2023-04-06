@@ -102,7 +102,8 @@
                 <td th:text="${place.name}">Place name</td>
                 <td th:text="${place.formatted != null} ? ${place.formatted}">Address</td>
                 <td th:text="${place.phone != null} ? ${place.phone} : 'N/A'">Phone number</td>
-                <td th:text="${place.amenity}" th:data-name="${place.getCoords()}" th:onclick="greet(this.getAttribute('data-name'))">Amenity</td>
+                <td th:text="${place.amenity}">Amenity</td>
+                <td><a th:href="@{'/directions/' + ${place.id}}">Directions &rArr;</a></td>
             </tr>
             </tbody>
         </table>
@@ -124,7 +125,7 @@
 
     const campusCoors = [42.31876597931233,-83.23285013531347];
     let marker = L.marker(campusCoors).addTo(map);
-    var yellowIcon = new L.Icon({
+    const yellowIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [25, 41],
@@ -141,22 +142,9 @@
      places.forEach(place => {
          let placeCoord = [place.lat, place.lon];
          let mapMarker = L.marker(placeCoord, {icon: yellowIcon}).addTo(map);
-         let line = L.polyline([campusCoors, placeCoord]).addTo(map);
-         mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li class='click'>" + place.distance + " meters away from campus</li></ul>").openPopup();
+         mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li>" + place.distance + " meters away from campus</li></ul>").openPopup();
      })
-
-    function greet(coords) {
-         console.log(coords);
-         let marker2 = L.marker(coords).addTo(map);
-    }
 
 </script>
 </body>
 </html>
-
-<!--// let marker = L.circle([42.318498726,-83.2265324272], {-->
-<!--//     color: 'red',-->
-<!--//     fillColor: '#777',-->
-<!--//     fillOpacity: 0.5,-->
-<!--//     radius: 500-->
-<!--// }).addTo(map);-->

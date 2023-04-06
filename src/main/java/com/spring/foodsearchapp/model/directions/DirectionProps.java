@@ -6,5 +6,5 @@ import lombok.Data;
 public class DirectionProps {
     private Object waypoint;
     private double time;
-    private Object legs;
+    private Object[] legs;
 }

@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class Steps {
-    private double distance;
-    private double time;
 
+    private double distance;
     private Object instruction;
 }

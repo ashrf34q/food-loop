@@ -112,3 +112,7 @@ body {
 .cta-btn:active {
     /* give it a darker yellow color */
 }
+
+.cta-btn{
+    cursor: pointer;
+}

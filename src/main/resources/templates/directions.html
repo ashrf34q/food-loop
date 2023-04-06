@@ -1,10 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Directions</title>
+
+    <!--  Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+
+    <style>
+        #map{
+            height: 600px;
+            width: 600px;
+        }
+
+        .container{
+            width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+
+<p th:text="${directions.directions}">Directions</p>
+
+<div id="map"></div>
+</div>
+
+
+<script th:inline="javascript">
+    'use strict';
+    let map = L.map('map').setView([42.318498726, -83.2265324272], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const campusCoors = [42.31876597931233,-83.23285013531347];
+    let marker = L.marker(campusCoors).addTo(map);
+    const yellowIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    const latitude = [[${directions.lat}]];
+    const longitude = [[${directions.lon}]];
+    const address = [[${directions.formattedAddress}]];
+
+    const placeCoords = [latitude, longitude];
+    console.log(placeCoords);
+
+    marker.bindPopup("<b>UM Dearborn campus. You are here</b>").openPopup();
+    let mapMarker = L.marker(placeCoords, {icon: yellowIcon}).addTo(map);
+    mapMarker.bindPopup("<b>" + address + "</b>");
+    let line = L.polyline([campusCoors, placeCoords]).addTo(map);
+
+</script>
 
 </body>
 </html>

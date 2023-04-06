@@ -1,11 +1,10 @@
 package com.spring.foodsearchapp.model.directions;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,9 +17,13 @@ public class Directions {
 
     private double time;
 
+    private String formattedAddress;
+
+    @Lob
     private String directions;
 
     private double lat;
 
     private double lon;
+
 }
