@@ -57,10 +57,8 @@ public class IndexController {
 
     //Fast food filter
     @RequestMapping("/restaurants/search/filter/fast_food")
-    public String filterByFastFoodRequest(Model model) throws IOException {
-    	Set<Place> places = placesService.getPlaces();
-    	places.forEach(placesService::savePlace);
-    	places = placesService.findByFastFood();
+    public String filterByFastFoodRequest(Model model) {
+    	Set<Place> places = placesService.findByFastFood();
     	
     	model.addAttribute("places", places);
     	return"list";
@@ -68,10 +66,8 @@ public class IndexController {
     
     //Cafe filter
     @RequestMapping("/restaurants/search/filter/cafe")
-    public String filterByCafeRequest(Model model) throws IOException {
-    	Set<Place> places = placesService.getPlaces();
-    	places.forEach(placesService::savePlace);
-    	places = placesService.findByCafe();
+    public String filterByCafeRequest(Model model) {
+    	Set<Place> places = placesService.findByCafe();
     	
     	model.addAttribute("places", places);
     	return"list";
@@ -79,10 +75,8 @@ public class IndexController {
     
   //All filter
     @RequestMapping("/restaurants/search/filter/all")
-    public String filterByAllRequest(Model model) throws IOException {
-    	Set<Place> places = placesService.getPlaces();
-    	places.forEach(placesService::savePlace);
-    	places = placesService.findAll();
+    public String filterByAllRequest(Model model) {
+    	Set<Place> places = placesService.findAll();
     	
     	model.addAttribute("places", places);
     	return"list";
