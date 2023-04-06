@@ -1,9 +1,11 @@
 package com.spring.foodsearchapp.controller;
 
 import com.spring.foodsearchapp.model.Place;
+import com.spring.foodsearchapp.model.directions.Directions;
 import com.spring.foodsearchapp.services.PlacesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,7 +30,7 @@ public class IndexController {
     }
 
     @RequestMapping("/restaurants/search")
-    public String sendRequest(Model model) throws IOException {
+    public String getPlaces(Model model) throws IOException {
 
 //        call get places(),
         Set<Place> places = placesService.getPlaces();
@@ -42,18 +44,16 @@ public class IndexController {
         return"list";
 
     }
-    
-    /* General amenity filter
-    @RequestMapping("/restaurants/search/filter/{amenity}")
-    public String filterByAmenityRequest(Model model, @PathVariable("amenity") String amenity) throws IOException {
-    	Set<Place> places = placesService.getPlaces();
-    	places.forEach(placesService::savePlace);
-    	places = placesService.findByAmenity(amenity);
-    	
-    	model.addAttribute("places", places);
-    	
-    	return"list";
-    }*/
+
+    @GetMapping("/directions/{id}")
+    public String getDirectionsById(@PathVariable Long id, Model model) throws IOException {
+
+        Directions directionsToSave = placesService.getDirectionsByPlaceId(id);
+
+        model.addAttribute("directions", placesService.saveDirections(directionsToSave));
+
+        return "directions";
+    }
 
     //Fast food filter
     @RequestMapping("/restaurants/search/filter/fast_food")

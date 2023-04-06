@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.spring.foodsearchapp.model.*;
 import com.spring.foodsearchapp.model.Properties;
-import com.spring.foodsearchapp.model.directions.Directions;
+import com.spring.foodsearchapp.model.directions.*;
+import com.spring.foodsearchapp.model.directions.Collection;
+import com.spring.foodsearchapp.repositories.DirectionsRepository;
 import com.spring.foodsearchapp.repositories.PlaceRepository;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -15,6 +17,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -23,13 +26,18 @@ public class PlacesServiceImpl implements PlacesService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
     private static final OkHttpClient client = new OkHttpClient().newBuilder()
             .build();
 
     private final PlaceRepository placeRepository;
 
-    public PlacesServiceImpl(PlaceRepository placeRepository) {
+    private final DirectionsRepository directionsRepository;
+
+    public PlacesServiceImpl(PlaceRepository placeRepository, DirectionsRepository directionsRepository) {
         this.placeRepository = placeRepository;
+        this.directionsRepository = directionsRepository;
     }
 
     @Override
@@ -100,11 +108,10 @@ public class PlacesServiceImpl implements PlacesService {
 
     @Override
     public Directions getDirectionsByPlaceId(Long id) throws IOException {
-
         Optional<Place> place = Objects.requireNonNull(placeRepository.findById(id));
         Directions directions = new Directions();
 
-        if(place.isEmpty()) {
+        if (place.isEmpty()) {
             throw new RuntimeException("Place not found!");
         }
 
@@ -114,6 +121,7 @@ public class PlacesServiceImpl implements PlacesService {
 
         directions.setLat(lat);
         directions.setLon(lon);
+        directions.setFormattedAddress(place.get().getFormatted());
 
 //        Specify target latitude and longitude
         String url = "https://api.geoapify.com/v1/routing?waypoints=42.3172294,-83.23193935538828|" + lat + "," + lon + "&mode=drive&apiKey=60d0383c87a448bea60607e71870d44c";
@@ -123,16 +131,43 @@ public class PlacesServiceImpl implements PlacesService {
                 .build();
         Response response = client.newCall(request).execute();
 
-//        TODO: Deserialize objects here, extract the data we need and encapsulate it in directions object, then return it to the controller. Which in turn fills up the model and returns the view
+//        Deserialize objects here, extract the data we need and encapsulate it in directions object, then return it to the controller. Which in turn fills up the model and returns the view
 
+        setMapperVisibility(mapper);
 
+        String json = Objects.requireNonNull(response.body()).string();
+        System.out.println(json);
 
-        return null;
+        Collection featureCollection = mapper.readValue(json, Collection.class);
+
+        DirectionsFeatures[] features = mapper.convertValue(featureCollection.getFeatures(), DirectionsFeatures[].class);
+
+        DirectionProps properties = mapper.convertValue(features[0].getProperties(), DirectionProps.class);
+
+        directions.setTime(properties.getTime());
+
+        Legs[] legs = mapper.convertValue(properties.getLegs(), Legs[].class);
+
+        Steps[] steps = mapper.convertValue(legs[0].getSteps(), Steps[].class);
+
+        StringBuilder directionSteps = new StringBuilder();
+
+        for (Steps step :
+                steps) {
+            double travelDistance = step.getDistance();
+            Instruction instruction = mapper.convertValue(step.getInstruction(), Instruction.class);
+            String direction = travelDistance > 300 ? instruction.getText() + " Continue for " + df.format(travelDistance/1609) + " miles.\n" : travelDistance == 0 ? "" : instruction.getText() + " Continue for " + df.format(travelDistance*3.281) + " feet.\n";
+            directionSteps.append(direction);
+        }
+
+        directions.setDirections(directionSteps.toString());
+
+        return directions;
     }
 
     @Override
     public Directions saveDirections(Directions directions) {
-        return null;
+        return directionsRepository.save(directions);
     }
 
     /*
