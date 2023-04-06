@@ -102,11 +102,32 @@ This method configures the visibility of the ObjectMapper instance used for dese
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
-    
-    /*
+    /* General Filter
     Filter by amenity
-     */
+    */
     public Set<Place> findByAmenity(String amenity){
     	return placeRepository.findByAmenity(amenity);
     }
+    
+    /*
+    Filter by fast food
+     */
+    public Set<Place> findByFastFood(){
+    	return placeRepository.findByAmenity("fast_food");
+    }
+    
+    /*
+    Filter by cafe
+     */
+    public Set<Place> findByCafe(){
+    	return placeRepository.findByAmenity("cafe");
+    }
+    
+    /*
+    Filter by all
+     */
+    public Set<Place> findAll(){
+    	return placeRepository.findAll();
+    }
+    
 }

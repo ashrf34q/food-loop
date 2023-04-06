@@ -12,4 +12,7 @@ public interface PlaceRepository extends CrudRepository<Place, Long> {
 	
 	@Query("SELECT p FROM Place p WHERE p.amenity LIKE %?1%")
 	Set<Place> findByAmenity(String amenity);
+	
+	@Query("SELECT p FROM Place p")
+	Set<Place> findAll();
 }

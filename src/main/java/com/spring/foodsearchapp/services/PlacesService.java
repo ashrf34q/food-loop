@@ -12,4 +12,10 @@ public interface PlacesService {
     Place savePlace(Place place);
     
     Set<Place> findByAmenity(String amenity);
+    
+    Set<Place> findByFastFood();
+    
+    Set<Place> findByCafe();
+    
+    Set<Place> findAll();
 }

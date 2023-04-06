@@ -43,6 +43,7 @@ public class IndexController {
 
     }
     
+    /* General amenity filter
     @RequestMapping("/restaurants/search/filter/{amenity}")
     public String filterByAmenityRequest(Model model, @PathVariable("amenity") String amenity) throws IOException {
     	Set<Place> places = placesService.getPlaces();
@@ -52,6 +53,38 @@ public class IndexController {
     	model.addAttribute("places", places);
     	
     	return"list";
-    }
+    }*/
 
+    //Fast food filter
+    @RequestMapping("/restaurants/search/filter/fast_food")
+    public String filterByFastFoodRequest(Model model) throws IOException {
+    	Set<Place> places = placesService.getPlaces();
+    	places.forEach(placesService::savePlace);
+    	places = placesService.findByFastFood();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
+    
+    //Cafe filter
+    @RequestMapping("/restaurants/search/filter/cafe")
+    public String filterByCafeRequest(Model model) throws IOException {
+    	Set<Place> places = placesService.getPlaces();
+    	places.forEach(placesService::savePlace);
+    	places = placesService.findByCafe();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
+    
+  //All filter
+    @RequestMapping("/restaurants/search/filter/all")
+    public String filterByAllRequest(Model model) throws IOException {
+    	Set<Place> places = placesService.getPlaces();
+    	places.forEach(placesService::savePlace);
+    	places = placesService.findAll();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
 }
