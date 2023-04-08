@@ -39,9 +39,30 @@
             /*margin: 0 auto;*/
         }
 
+
         .arrow-right{
             width: 16px;
         }
+		
+		.place-list{
+			border-radius: 0px;
+			border: 2px solid #ECCB57;
+			margin: 20px;
+		}
+				
+		.aplace{
+			padding-left:10px;
+			padding-right:10px;
+			background-color: #F6F6F6;
+		}
+		
+		.aplace:hover {
+    		background-color: #FFE097;
+			box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+		}
+		.thclass{
+			padding: 20px;
+		}
 
         #map{
             height: 600px;
@@ -52,24 +73,15 @@
             border-collapse: collapse;
         }
 
+		
+
         th,
         td {
             /* border: 1px solid #343a40; */
-            padding: 14px 28px;
-            text-align: left;
+			padding: 14px 28px;
+			text-align: left;
         }
 
-        thead th{
-            background-color: #087f5b;
-            color: #fff;
-        }
-        .body-row:nth-child(even) {
-            background-color: #ced4da;
-        }
-
-        .body-row:nth-child(odd) {
-            background-color: #f1f3f5;
-        }
     </style>
 </head>
 <body>
@@ -86,27 +98,28 @@
         </svg>
             Restaurants</p>
         <h2>Best Restaurants near the campus</h2>
+		<br/>
+		
 
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Amenity</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr class="body-row"  th:each="place : ${places}">
-                <td th:text="${place.name}">Place name</td>
-                <td th:text="${place.formatted != null} ? ${place.formatted}">Address</td>
-                <td th:text="${place.phone != null} ? ${place.phone} : 'N/A'">Phone number</td>
-                <td th:text="${place.amenity}">Amenity</td>
-                <td><a th:href="@{'/directions/' + ${place.id}}">Directions &rArr;</a></td>
-            </tr>
-            </tbody>
-        </table>
+		<div class="place-list">
+	        <div class="thclass" th:each="place : ${places}">
+				<div class="aplace">
+		            <h1 th:text="${place.name}">Place name</h1>
+					<h3 th:text="${place.amenity}">Amenity</h3>
+					<br/>
+					<h4>Address</h4>
+		            <p th:text="${place.formatted != null} ? ${place.formatted}">Address</p>
+		            <br/>
+					<h4>Phone Number</h4>
+					<p th:text="${place.phone != null} ? ${place.phone} : 'N/A'">Phone number</p>
+					<br/>
+					<h4>Directions</h4>
+				</div>
+				<br/>
+				<hr/>
+				<br/>
+	        </div>
+		</div>
     </div>
 
     <div class="map-section">
@@ -123,28 +136,26 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    const campusCoors = [42.31876597931233,-83.23285013531347];
-    let marker = L.marker(campusCoors).addTo(map);
-    const yellowIcon = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
+    let marker = L.marker([42.31876597931233,-83.23285013531347]).addTo(map);
+
 
     marker.bindPopup("<b>UM Dearborn campus. You are here</b>").openPopup();
 
      const places = /*[[${places}]]*/ [];
 
-     // This renders when the page loads
      places.forEach(place => {
-         let placeCoord = [place.lat, place.lon];
-         let mapMarker = L.marker(placeCoord, {icon: yellowIcon}).addTo(map);
+         let mapMarker = L.marker([place.lat, place.lon]).addTo(map);
          mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li>" + place.distance + " meters away from campus</li></ul>").openPopup();
      })
+
 
 </script>
 </body>
 </html>
+
+<!--// let marker = L.circle([42.318498726,-83.2265324272], {-->
+<!--//     color: 'red',-->
+<!--//     fillColor: '#777',-->
+<!--//     fillOpacity: 0.5,-->
+<!--//     radius: 500-->
+<!--// }).addTo(map);-->
