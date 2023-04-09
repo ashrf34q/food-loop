@@ -9,8 +9,10 @@ public class Properties {
     private double lon;
     private double lat;
     private String address_line2;
+    private String formatted;
     private String place_id;
     private double distance;
 
     private Object datasource;
+
 }

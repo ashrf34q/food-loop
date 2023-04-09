@@ -8,4 +8,5 @@ public class RawData {
     private String amenity;
     private String cuisine;
     private String website;
+
 }

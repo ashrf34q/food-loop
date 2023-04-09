@@ -1,9 +1,12 @@
 package com.spring.foodsearchapp.controller;
 
 import com.spring.foodsearchapp.model.Place;
+import com.spring.foodsearchapp.model.directions.Directions;
 import com.spring.foodsearchapp.services.PlacesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
@@ -27,7 +30,7 @@ public class IndexController {
     }
 
     @RequestMapping("/restaurants/search")
-    public String sendRequest(Model model) throws IOException {
+    public String getPlaces(Model model) throws IOException {
 
 //        call get places(),
         Set<Place> places = placesService.getPlaces();
@@ -42,4 +45,40 @@ public class IndexController {
 
     }
 
+    @GetMapping("/directions/{id}")
+    public String getDirectionsById(@PathVariable Long id, Model model) throws IOException {
+
+        Directions directionsToSave = placesService.getDirectionsByPlaceId(id);
+
+        model.addAttribute("directions", placesService.saveDirections(directionsToSave));
+
+        return "directions";
+    }
+
+    //Fast food filter
+    @RequestMapping("/restaurants/search/filter/fast_food")
+    public String filterByFastFoodRequest(Model model) {
+    	Set<Place> places = placesService.findByFastFood();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
+    
+    //Cafe filter
+    @RequestMapping("/restaurants/search/filter/cafe")
+    public String filterByCafeRequest(Model model) {
+    	Set<Place> places = placesService.findByCafe();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
+    
+  //All filter
+    @RequestMapping("/restaurants/search/filter/all")
+    public String filterByAllRequest(Model model) {
+    	Set<Place> places = placesService.findAll();
+    	
+    	model.addAttribute("places", places);
+    	return"list";
+    }
 }
