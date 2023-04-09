@@ -15,24 +15,58 @@
             crossorigin=""></script>
 
     <style>
-        #map{
-            height: 600px;
-            width: 600px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
         .container{
-            width: 1200px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 40fr 60fr;
+            padding: 25px;
+        }
+
+        .text{
+            line-height: 1.5;
+        }
+
+        .directions{
+            padding: 3rem 4rem 5rem 5rem;
+            background-color: #495057;
+            color: #fff;
+        }
+
+        #map{
+            height: 650px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .dest{
+
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="directions">
+        <p class="dest">Directions for:</p>
+        <p th:text="${directions.formattedAddress}">Place name</p>
 
-<p th:text="${directions.directions}">Directions</p>
+        <div th:each="step : ${directions.directionList}">
+        <p th:text="${step}" class="text">Directions</p>
+        </div>
+    </div>
 
-<div id="map"></div>
+    <div id="map"></div>
+
 </div>
 
 

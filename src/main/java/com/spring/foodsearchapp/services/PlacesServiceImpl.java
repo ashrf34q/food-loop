@@ -152,15 +152,20 @@ public class PlacesServiceImpl implements PlacesService {
 
         StringBuilder directionSteps = new StringBuilder();
 
+        List<String> directionList = new ArrayList<>();
+
         for (Steps step :
                 steps) {
             double travelDistance = step.getDistance();
             Instruction instruction = mapper.convertValue(step.getInstruction(), Instruction.class);
             String direction = travelDistance > 300 ? instruction.getText() + " Continue for " + df.format(travelDistance/1609) + " miles.\n" : travelDistance == 0 ? "" : instruction.getText() + " Continue for " + df.format(travelDistance*3.281) + " feet.\n";
             directionSteps.append(direction);
+
+            directionList.add(direction);
         }
 
         directions.setDirections(directionSteps.toString());
+        directions.setDirectionList(directionList);
 
         return directions;
     }

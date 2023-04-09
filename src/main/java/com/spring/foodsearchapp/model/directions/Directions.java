@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,5 +27,8 @@ public class Directions {
     private double lat;
 
     private double lon;
+
+    @ElementCollection
+    private List<String> directionList;
 
 }
