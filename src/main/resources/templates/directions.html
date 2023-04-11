@@ -34,6 +34,7 @@
 
         .text{
             line-height: 1.5;
+            padding: 5px;
         }
 
         .directions{
@@ -49,7 +50,22 @@
         }
 
         .dest{
+        }
 
+        .addr{
+            padding-bottom: 12px;
+        }
+
+        .marker-pin{
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            background: #c30b82;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -15px 0 0 -15px;
         }
     </style>
 </head>
@@ -58,7 +74,7 @@
 <div class="container">
     <div class="directions">
         <p class="dest">Directions for:</p>
-        <p th:text="${directions.formattedAddress}">Place name</p>
+        <p th:text="${directions.formattedAddress}" class="addr">Place name</p>
 
         <div th:each="step : ${directions.directionList}">
         <p th:text="${step}" class="text">Directions</p>

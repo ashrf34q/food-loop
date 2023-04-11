@@ -14,6 +14,10 @@
             integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
             crossorigin=""></script>
 
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <!-- Inter font family -->
+
     <style>
 
         * {
@@ -22,56 +26,60 @@
             box-sizing: border-box;
         }
 
-        body{
-            font-family: sans-serif;
+        body {
+            font-family: "Inter", sans-serif;
             color: #343a40;
         }
 
-        .header{
-            height: 70px;
+        .header {
+            height: 85px;
         }
 
-        .container{
-            display: flex;
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 54px;
-            /*width: 960px;*/
-            /*margin: 0 auto;*/
+            padding-right: 20px;
         }
-
 
         .arrow-right{
             width: 16px;
         }
-		
-		.place-list{
+
+        .list-title {
+            padding-left: 20px;
+        }
+
+        .flex-el {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /*Here may need an update*/
+		.place-list {
 			border-radius: 0;
 			border: 2px solid #ECCB57;
 			margin: 20px;
+            height: 550px;
+            overflow-y: scroll;
 		}
 				
-		.aplace{
+		.aplace {
 			padding-left:10px;
 			padding-right:10px;
 			background-color: #F6F6F6;
             box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 		}
-		
-		/*.aplace:hover {*/
-    	/*	background-color: #FFE097;*/
-		/*	box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);*/
-		/*}*/
 
-		.thclass{
+		.thclass {
 			padding: 20px;
 		}
 
-        #map{
-            height: 600px;
-            width: 500px;
-        }
-
-        .directions{
-
+        /* Here too */
+        #map {
+            height: 100%;
+            width: 100%;
         }
 
         .directions-link:link, .directions-link:visited {
@@ -85,8 +93,44 @@
             color: #111111;
         }
 
-        .directions-link:hover, .directions-link:active{
+        .directions-link:hover, .directions-link:active {
             background-color: #fab005;
+        }
+
+        .icon {
+            font-size: 50px;
+        }
+
+        #icon {
+            font-size: 50px;
+        }
+
+        .header-options {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding-top: 10px;
+        }
+
+        .option {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .filter-btn:link, .filter-btn:visited {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .filter-btn:hover,.filter-btn:active{
+            /*background-color: #fab005;*/
+        }
+
+        .map-section {
+            padding-top: 45px;
         }
 
     </style>
@@ -94,17 +138,38 @@
 <body>
 
 <header class="header">
-    <h1>Welcome to the UMD food search!</h1>
+    <div class="header-options">
+        <div class="option">
+            <ion-icon name="fast-food-outline" class="icon"></ion-icon>
+            <a class="filter-btn" href="#" th:href="@{'/restaurants/search/filter/fast_food'}">Fast food</a>
+        </div>
+
+        <div class="option">
+            <ion-icon name="cafe-outline" class="icon"></ion-icon>
+            <a class="filter-btn" href="#" th:href="@{'/restaurants/search/filter/cafe'}">Cafe</a>
+        </div>
+
+        <div class="option">
+            <i class="las la-list-ol" id="icon"></i>
+            <a class="filter-btn" href="#" th:href="@{'/restaurants/search/filter/all'}">All</a>
+        </div>
+
+    </div>
 </header>
 
 <div class="container">
 
     <div class="restaurant-list">
-        <p>UM Dearborn <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-right">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-            Restaurants</p>
-        <h2>Best Restaurants near the campus</h2>
+        <div class="list-title">
+            <div class="flex-el">
+            <p>UM Dearborn</p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-right">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+            <p>Restaurants</p>
+            </div>
+        <h2>A quick bite near the campus!</h2>
+        </div>
 		<br/>
 		
 
@@ -133,7 +198,6 @@
 
     <div class="map-section">
         <!--    Here goes our map -->
-        <p>Here goes our map</p>
         <div id="map"></div>
     </div>
 </div>
@@ -169,12 +233,8 @@
 
 
 </script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
-
-<!--// let marker = L.circle([42.318498726,-83.2265324272], {-->
-<!--//     color: 'red',-->
-<!--//     fillColor: '#777',-->
-<!--//     fillOpacity: 0.5,-->
-<!--//     radius: 500-->
-<!--// }).addTo(map);-->
