@@ -45,7 +45,7 @@ public class PlacesServiceImpl implements PlacesService {
 
 
         Request request = new Request.Builder()
-                .url("https://api.geoapify.com/v2/places?categories=catering.fast_food,catering.cafe&filter=circle:-83.23240723618414,42.31726187641564,5000&bias=proximity:-83.23240723618414,42.31726187641564&limit=25&apiKey=1b25355b717a480b91ffa30ca977c7ec")
+                .url("https://api.geoapify.com/v2/places?categories=catering.fast_food,catering.cafe&filter=circle:-83.23240723618414,42.31726187641564,8000&bias=proximity:-83.23240723618414,42.31726187641564&limit=35&apiKey=1b25355b717a480b91ffa30ca977c7ec")
                 .method("GET", null)
                 .build();
         Response response = client.newCall(request).execute();
@@ -76,7 +76,10 @@ public class PlacesServiceImpl implements PlacesService {
             tempPlace.setLat(properties.getLat());
             tempPlace.setAddress_line2(properties.getAddress_line2());
             tempPlace.setPlace_id(properties.getPlace_id());
-            tempPlace.setDistance(properties.getDistance());
+
+//            Convert to miles
+            double distance = properties.getDistance() / 1609;
+            tempPlace.setDistance(Double.parseDouble(df.format(distance)));
             tempPlace.setFormatted(properties.getFormatted());
 
 //            DataSource object within properties
