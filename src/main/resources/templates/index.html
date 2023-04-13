@@ -5,14 +5,114 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome!</title>
-    <link rel="stylesheet" th:href="@{/css/indexStyles.css}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        /* 10px */
+        font-size: 62.5%;
+    }
+
+    body {
+        font-family: "Inter", sans-serif;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        height: 9rem;
+        padding: 4.8rem;
+        /*background-color: #fff9db;*/
+    }
+
+    .logo-cntr {
+        display: flex;
+        gap: 1.6rem;
+        align-items: center;
+    }
+
+    .logo-name {
+        font-size: 2.4rem;
+        font-weight: 500;
+    }
+
+    .logo {
+        width: 24rem;
+    }
+
+    .food-imgs {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .hero-section {
+        padding: 4.8rem 0 9.6rem 0;
+        /*background-color: #fff9db;*/
+        height: 100vh;
+    }
+
+    .heading {
+        font-size: 5.2rem;
+        line-height: 1.05;
+        margin-bottom: 3.2rem;
+    }
+
+    .brief-description {
+        font-size: 2rem;
+        line-height: 1.6;
+        margin-bottom: 4.8rem;
+    }
+
+    .hero {
+        max-width: 130rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 9.6rem;
+        margin: 0 auto;
+    }
+
+    .cta-btn:link,
+    .cta-btn:visited {
+        font-size: 1.8rem;
+        text-decoration: none;
+        display: inline-block;
+        background-color: #8ce99a;  /* Was #ffd43b */
+        color: #111;
+        transition: all 0.3s;
+
+        padding: 1.2rem 2.4rem;
+        border-radius: 0.9rem;
+    }
+
+    .cta-btn:hover,
+    .cta-btn:active {
+        background-color: #51cf66; /* was #fab005 */
+    }
+
+    .cta-btn{
+        cursor: pointer;
+    }
+
+</style>
 <body>
 
 <header class="header">
     <div class="logo-cntr">
-        <img class="logo" alt="UM Dearborn logo" th:src="@{/images/um-logo.jpg}" />
-        <p class="logo-name">UMD Food Search</p>
+        <img class="logo" alt="logo" th:src="@{/images/logo.png}" />
     </div>
 </header>
 
@@ -22,7 +122,7 @@
 
         <div class="hero">
             <div class="text-box">
-                <h1 class="heading">Food within 2 miles of your campus</h1>
+                <h1 class="heading">Food within 5 miles of your campus</h1>
                 <p class="brief-description">
                     Click below for a list of places, place details and their corresponding markers on the map.
                 </p>
@@ -31,7 +131,6 @@
 
             <div class="hero-imgs">
                 <img class="food-imgs" alt="food images" th:src="@{images/food-1.jpg}" />
-                <!-- <img class="food-imgs" alt="food images" src="images/food-2.jpg" /> -->
             </div>
         </div>
     </section>

@@ -93,12 +93,12 @@
             border-radius: 10px;
 
             transition: all 0.3s;
-            background-color: #ffd43b;
+            background-color: #8ce99a;
             color: #111111;
         }
 
         .directions-link:hover, .directions-link:active {
-            background-color: #fab005;
+            background-color: #51cf66;
         }
 
         .icon {
@@ -271,7 +271,7 @@
     places.forEach(place => {
         let placeCoord = [place.lat, place.lon];
         let mapMarker = L.marker(placeCoord, {icon: yellowIcon}).addTo(map);
-        mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li>" + place.distance + " meters away from campus</li></ul>").openPopup();
+        mapMarker.bindPopup("<b>" + place.formatted + "</b>" + "<ul><li>" + place.distance + " miles away from campus</li></ul>").openPopup();
     });
 
 
