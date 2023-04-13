@@ -34,12 +34,13 @@
 
         .text{
             line-height: 1.5;
+            padding: 5px;
         }
 
         .directions{
-            padding: 3rem 4rem 5rem 5rem;
-            background-color: #495057;
-            color: #fff;
+            padding: 3rem 4rem 5rem 4rem;
+            /*background-color: #495057;*/
+            color: #333;
         }
 
         #map{
@@ -49,20 +50,39 @@
         }
 
         .dest{
-
+            font-size: 20px;
         }
+
+        .addr{
+            padding-bottom: 12px;
+        }
+
+        /*.subtitle{*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    !*justify-content: space-between;*!*/
+        /*}*/
+
+        p, h2{
+            text-align: center;
+        }
+
+        /*ul:last-child{*/
+        /*    display: none;*/
+        /*}*/
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="directions">
-        <p class="dest">Directions for:</p>
-        <p th:text="${directions.formattedAddress}">Place name</p>
+        <h2 class="dest">Directions for:</h2>
+        <p th:text="${directions.formattedAddress}" class="addr">Place name</p>
 
-        <div th:each="step : ${directions.directionList}">
-        <p th:text="${step}" class="text">Directions</p>
-        </div>
+
+        <ul th:each="step : ${directions.directionList}">
+        <li th:text="${step != ''} ? ${step} : 'You have arrived!'" class="text">Directions</li>
+        </ul>
     </div>
 
     <div id="map"></div>
@@ -92,13 +112,16 @@
     const latitude = [[${directions.lat}]];
     const longitude = [[${directions.lon}]];
     const address = [[${directions.formattedAddress}]];
+    let time = [[${directions.time}]];
+
+    time = parseInt((time / 60), 10);
 
     const placeCoords = [latitude, longitude];
     console.log(placeCoords);
 
     marker.bindPopup("<b>UM Dearborn campus. You are here</b>").openPopup();
     let mapMarker = L.marker(placeCoords, {icon: yellowIcon}).addTo(map);
-    mapMarker.bindPopup("<b>" + address + "</b>");
+    mapMarker.bindPopup("<b>" + address + "</b>" + "<br />" + "<span>You should reach your destination in&nbsp" + time + " minutes.</span>");
     let line = L.polyline([campusCoors, placeCoords]).addTo(map);
 
 </script>
