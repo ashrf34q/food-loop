@@ -18,11 +18,13 @@ To get started, clone the repository using the following command:
  ## Build the app
  Once you have cloned the repository, navigate to the project root directory and run the following command to build the app:
  > mvn clean install
+
  This command will build the app and create an executable JAR file in the target directory.
  
  ## Test the app
  To run the tests, use the following command:
  > mvn test
+
  This command will run all the tests in the project and provide a report of the test results.
  
  ## Run the app
