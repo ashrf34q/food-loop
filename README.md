@@ -35,6 +35,6 @@ To get started, clone the repository using the following command:
  
  Note: The jar file might have a different name, just navigate to the target folder to make sure what the generated jar file is called.
  
- You can also run the app in a simpler, no hassle way directly from your IDE by clicking the run button.
+ You can also run the app in a simpler, no hassle way directly from your IDE by clicking the run button. Just make sure you build the app with maven first.
  
  The app should now be up and running. You can access it by navigating to http://localhost:8080 in your web browser.
