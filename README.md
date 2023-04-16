@@ -10,6 +10,7 @@ Before building and running the app, ensure that you have the following installe
 - Maven
 - Git
 - A Java IDE (IntelliJ, Eclipse, ...)
+- Project Lombok. If you're using Intellij, no need to download anything. But if you're using eclipse or other IDE's, refer to this [video](https://youtu.be/gsFPXkYDb-s) or this [article](https://www.baeldung.com/lombok-ide) to configure it.
 
 ## Clone the repository
 To get started, clone the repository using the following command:
